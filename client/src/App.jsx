@@ -12,7 +12,7 @@ function App() {
     setMessage("Logging in...");
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch("https://bookleaf-support-portal-z2so.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +74,7 @@ useEffect(() => {
 
   if (!token) return;
 
-  fetch("http://localhost:5000/api/books/my-books", {
+  fetch("https://bookleaf-support-portal-z2so.onrender.com/api/books/my-books", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -93,7 +93,7 @@ useEffect(() => {
       setBooksMessage(error.message);
     });
 
-   fetch("http://localhost:5000/api/tickets/my-tickets", {
+   fetch("https://bookleaf-support-portal-z2so.onrender.com/api/tickets/my-tickets", {
   headers: {
     Authorization: `Bearer ${token}`,
   },
@@ -117,7 +117,7 @@ const user = JSON.parse(localStorage.getItem("user") || "{}");
 if (user.role === "admin") {
   const token = localStorage.getItem("token");
 
-  fetch("http://localhost:5000/api/tickets", {
+  fetch("https://bookleaf-support-portal-z2so.onrender.com/api/tickets", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -162,8 +162,7 @@ if (ticketAttachment) {
   formData.append("attachment", ticketAttachment);
 }
 
-const response = await fetch("http://localhost:5000/api/tickets", {
-  method: "POST",
+const response = await fetch("https://bookleaf-support-portal-z2so.onrender.com/api/tickets", {  method: "POST",
   headers: {
     Authorization: `Bearer ${token}`,
   },
@@ -185,7 +184,7 @@ const response = await fetch("http://localhost:5000/api/tickets", {
     setSelectedBook("");
 
     const ticketsResponse = await fetch(
-      "http://localhost:5000/api/tickets/my-tickets",
+      "https://bookleaf-support-portal-z2so.onrender.com/api/tickets/my-tickets",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -211,7 +210,7 @@ const handleDownloadAttachment = async (ticket) => {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      `http://localhost:5000/api/tickets/${ticket.ticket_id}/attachment`,
+      `https://bookleaf-support-portal-z2so.onrender.com/api/tickets/${ticket.ticket_id}/attachment`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -249,7 +248,7 @@ const handleAdminTicketUpdate = async (ticketId, updates) => {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      `http://localhost:5000/api/tickets/${ticketId}`,
+      `https://bookleaf-support-portal-z2so.onrender.com/api/tickets/${ticketId}`,
       {
         method: "PATCH",
         headers: {
@@ -269,7 +268,7 @@ const handleAdminTicketUpdate = async (ticketId, updates) => {
     setAdminActionMessage(`Ticket ${ticketId} updated successfully.`);
 
     const refreshResponse = await fetch(
-      "http://localhost:5000/api/tickets",
+      "https://bookleaf-support-portal-z2so.onrender.com/api/tickets",
       {
         headers: {
           Authorization: `Bearer ${token}`,
