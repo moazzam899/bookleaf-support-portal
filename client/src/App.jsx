@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
   const [email, setEmail] = useState("");
@@ -297,19 +298,24 @@ return (
     {localStorage.getItem("token") ? (
   JSON.parse(localStorage.getItem("user") || "{}").role === "admin" ? (
     <div style={{ maxWidth: "1000px", margin: "40px auto", padding: "24px" }}>
-      <h1>BookLeaf Admin Dashboard</h1>
+      <div className="dashboard-header">
+  <div>
+    <p className="eyebrow">AUTHOR SUPPORT PORTAL</p>
+    <h1>Support Dashboard</h1>
+    <p className="page-subtitle">
+      Welcome back, Admin. Here’s your support overview.
+    </p>
+  </div>
+
+  <div className="admin-badge">
+    <span className="status-dot"></span>
+    Administrator
+  </div>
+</div>
       <p>Welcome, Admin!</p>
       <h2>Support Ticket Management</h2>
 
-      <div
-  style={{
-    display: "flex",
-    gap: "16px",
-    flexWrap: "wrap",
-    marginTop: "20px",
-    marginBottom: "20px",
-  }}
->
+      <div className="analytics-grid">
   {[
     { label: "Total Tickets", count: adminTickets.length, color: "#2563eb" },
     {
@@ -329,17 +335,10 @@ return (
     },
   ].map((item) => (
     <div
-      key={item.label}
-      style={{
-        flex: "1",
-        minWidth: "150px",
-        padding: "18px",
-        border: "1px solid #e5e7eb",
-        borderRadius: "10px",
-        borderTop: `4px solid ${item.color}`,
-        background: "#ffffff",
-      }}
-    >
+  key={item.label}
+  className="analytics-card"
+  style={{ "--card-accent": item.color }}
+>
       <p style={{ margin: "0 0 8px", color: "#6b7280" }}>
         {item.label}
       </p>
@@ -350,10 +349,12 @@ return (
   ))}
 </div>
       
-<p>Yahan admin ke saare support tickets manage honge.</p>
+<p className="page-subtitle">
+  Search, filter, and manage author support requests.
+</p>
 
 
-<div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "20px" }}>
+<div className="ticket-filters">
 
   <div
     style={{
@@ -494,24 +495,22 @@ return (
 
   .map((ticket) => (
 
-  <div
-    key={ticket.ticket_id}
-    style={{
-      border: "1px solid #ddd",
-      borderLeft: `5px solid ${
-  ticket.priority === "Critical" || ticket.priority === "High"
-    ? "#dc2626"
-    : ["Open", "In Progress"].includes(ticket.status) &&
-      (Date.now() - new Date(ticket.createdAt).getTime()) >
-        3 * 24 * 60 * 60 * 1000
-    ? "#f97316"
-    : "#9ca3af"
-}`,
-      borderRadius: "8px",
-      padding: "16px",
-      marginTop: "16px",
-    }}
-  >
+  
+<div
+  key={ticket.ticket_id}
+  className="ticket-card"
+  style={{
+    "--ticket-accent":
+      ticket.priority === "Critical" || ticket.priority === "High"
+        ? "#dc2626"
+        : ["Open", "In Progress"].includes(ticket.status) &&
+          Date.now() - new Date(ticket.createdAt).getTime() >
+            3 * 24 * 60 * 60 * 1000
+        ? "#f97316"
+        : "#94a3b8",
+  }}
+>
+
     <h3>{ticket.subject}</h3>
     <p><strong>Ticket ID:</strong> {ticket.ticket_id}</p>
     <p><strong>Author ID:</strong> {ticket.author_id}</p>
@@ -534,16 +533,34 @@ return (
     <p><strong>Priority:</strong> {ticket.priority}</p>
     <p><strong>Status:</strong> {ticket.status}</p>
     <p><strong>Created:</strong> {new Date(ticket.createdAt).toLocaleString()}</p>
-    {ticket.suggestedReply && (
-      <p><strong>AI Suggested Reply:</strong> {ticket.suggestedReply}</p>
-    )}
     
-{ticket.adminResponse && (
-  <p><strong>Admin Reply:</strong> {ticket.adminResponse}</p>
+{ticket.suggestedReply && (
+  <div className="ticket-info-panel ai-panel">
+    <h4>AI Suggested Reply</h4>
+    <p>{ticket.suggestedReply}</p>
+  </div>
 )}
 
-<div style={{ marginTop: "16px", borderTop: "1px solid #ddd", paddingTop: "16px" }}>
-  <h4>Manage Ticket</h4>
+    
+
+{ticket.adminResponse && (
+  <div className="ticket-info-panel reply-panel">
+    <h4>Admin Reply</h4>
+    <p>{ticket.adminResponse}</p>
+  </div>
+)}
+
+
+
+<div className="manage-ticket">
+  <div className="manage-ticket-heading">
+    <div>
+      <h4>Manage Ticket</h4>
+      <p>Update the ticket and respond to the author.</p>
+    </div>
+    <span className="manage-ticket-badge">Admin Controls</span>
+  </div>
+
 
   <label>Status</label>
   <select
@@ -629,8 +646,8 @@ return (
 
         <h2>Dashboard</h2>
 
-        <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-          <div style={{ border: "1px solid #ddd", padding: "20px", borderRadius: "8px" }}>
+        <div className="author-dashboard-grid">
+          <div className="author-panel books-panel">
   <h3>My Books</h3>
 
   {booksMessage && <p>{booksMessage}</p>}
@@ -654,7 +671,7 @@ return (
 </div>
 
           
-<div style={{ border: "1px solid #ddd", padding: "20px", borderRadius: "8px" }}>
+<div className="author-panel tickets-panel">
   <h3>My Tickets</h3>
 
   {ticketsMessage && <p>{ticketsMessage}</p>}
@@ -694,7 +711,7 @@ return (
 </div>
 
 
-          <div style={{ border: "1px solid #ddd", padding: "20px", borderRadius: "8px" }}>
+          <div className="author-panel create-ticket-panel">
             
 <h3>Create Ticket</h3>
 
@@ -784,9 +801,16 @@ return (
     ) : (
       
 <>
-  <h1>BookLeaf</h1>
-  <h2>Author Support Portal</h2>
-  <p>Sign in to manage your books and support tickets.</p>
+  
+<div className="login-page">
+  <div className="login-card">
+    <div className="login-brand">B</div>
+    <p className="login-eyebrow">BOOKLEAF PUBLISHING</p>
+    <h1>Author Support Portal</h1>
+    <p className="login-description">
+      Sign in to manage your books and support tickets.
+    </p>
+
 
   <form onSubmit={handleLogin}>
     <label htmlFor="email">Email</label>
@@ -817,6 +841,8 @@ return (
   </form>
 
   {message && <p>{message}</p>}
+    </div>
+</div>
 </>
 
     )}
