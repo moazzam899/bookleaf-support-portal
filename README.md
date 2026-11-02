@@ -6,7 +6,7 @@ A full-stack web application that helps authors raise support tickets and enable
 
 - **Author & Admin Portal:** https://myaibookleafpublisher.vercel.app/
 - **Backend API:** https://bookleaf-support-portal-z2so.onrender.com
-- **Private Repository:** https://github.com/moazzam899/bookleaf-support-portal
+- **Public GitHub Repository:** [https://github.com/moazzam899/bookleaf-support-portal](https://github.com/moazzam899/bookleaf-support-portal)
 
 ## Test Credentials
 
